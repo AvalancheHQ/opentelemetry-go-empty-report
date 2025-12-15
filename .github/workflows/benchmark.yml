@@ -27,7 +27,7 @@ jobs:
         uses: CodSpeedHQ/action@v4
         with:
           mode: walltime
-          run: make benchmark | tee output.txt
+          run: make test-bench | tee output.txt
       # - name: Run benchmarks
       #   run: make benchmark | tee output.txt
       # - name: Download previous benchmark data

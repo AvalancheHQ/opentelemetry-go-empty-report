@@ -183,13 +183,15 @@ test-coverage: $(GOCOVMERGE)
 	$(GOCOVMERGE) $$(find . -name coverage.out) > coverage.txt
 
 .PHONY: benchmark
+benchmark-quick: ARGS=-test.benchtime=1s
+benchmark-quick: benchmark
 benchmark: $(OTEL_GO_MOD_DIRS:%=benchmark/%)
 benchmark/%:
-	@echo "$(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $*..." \
+	@echo "$(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS) $*..." \
 		&& cd $* \
 		&& $(GO) list ./... \
 		| grep -v third_party \
-		| xargs $(GO) test -run=xxxxxMatchNothingxxxxx -bench=.
+		| xargs $(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS)
 
 .PHONY: golangci-lint golangci-lint-fix
 golangci-lint-fix: ARGS=--fix

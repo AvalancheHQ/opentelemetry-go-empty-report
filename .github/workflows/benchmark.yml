@@ -25,7 +25,9 @@ jobs:
           cache-dependency-path: "**/go.sum"
       - uses: dtolnay/rust-toolchain@stable
       - name: Install custom codspeed-go-runner
-        run: cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
+        run: |
+          cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
+          rm -rf /opt/hostedtoolcache
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v4.4.1
         with:

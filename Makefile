@@ -183,7 +183,7 @@ test-coverage: $(GOCOVMERGE)
 	$(GOCOVMERGE) $$(find . -name coverage.out) > coverage.txt
 
 .PHONY: benchmark
-benchmark-quick: ARGS=-benchtime=10ms
+benchmark-quick: ARGS=-benchtime=1ms
 benchmark-quick: benchmark
 benchmark: $(OTEL_GO_MOD_DIRS:%=benchmark/%)
 benchmark/%:

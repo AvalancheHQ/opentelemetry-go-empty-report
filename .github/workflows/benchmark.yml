@@ -34,11 +34,10 @@ jobs:
           cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
           df -h
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v4.4.1
+        uses: CodSpeedHQ/action@v4.7.0
         with:
           mode: walltime
           run: make benchmark-quick | tee output.txt
-          cache-instruments: false
       # - name: Run benchmarks
       #   run: make benchmark | tee output.txt
       # - name: Download previous benchmark data

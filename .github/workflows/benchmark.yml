@@ -17,12 +17,11 @@ jobs:
     name: Benchmarks
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
+      - name: Remove uncessary tools
+        run: |
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/lib/jvm
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
@@ -33,6 +32,7 @@ jobs:
       - name: Install custom codspeed-go-runner
         run: |
           cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
+          df -h
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v4.4.1
         with:

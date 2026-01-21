@@ -25,7 +25,7 @@ jobs:
           cache-dependency-path: "**/go.sum"
       - id: sharding
         run: |
-          make print-sharded-benchmarks >> $GITHUB_OUTPUT
+          echo "shards=$(make print-sharded-benchmarks)" >> $GITHUB_OUTPUT
 
   benchmark:
     needs: sharding-benchmark

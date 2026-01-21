@@ -187,7 +187,7 @@ benchmark-quick: ARGS=-benchtime=1ms
 benchmark-quick: benchmark
 benchmark: $(OTEL_GO_MOD_DIRS:%=benchmark/%)
 benchmark/%:
-	@echo "$(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS) $*..." \
+	@echo "cd $* && $(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS) ./..." \
 		&& cd $* \
 		&& $(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS) ./...
 

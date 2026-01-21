@@ -11,11 +11,25 @@ permissions: read-all
 env:
   DEFAULT_GO_VERSION: "~1.25.0"
 jobs:
+  sharding-benchmark:
+    name: Sharding benchmarks
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.sharding.outputs.shards }}
+    steps:
+      - id: sharding
+        run: |
+          make print-sharded-benchmarks >> $GITHUB_OUTPUT
+
   benchmark:
+    needs: sharding-benchmark
     permissions:
       contents: write # required for pushing to gh-pages branch
     name: Benchmarks
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        shard: ${{ fromJson(needs.sharding-benchmark.outputs.shards) }}
     steps:
       - name: Remove uncessary tools
         run: |
@@ -29,15 +43,15 @@ jobs:
           check-latest: true
           cache-dependency-path: "**/go.sum"
       - uses: dtolnay/rust-toolchain@stable
-      - name: Install custom codspeed-go-runner
-        run: |
-          cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
-          df -h
+      # - name: Install custom codspeed-go-runner
+      #   run: |
+      #     cargo install --git https://github.com/CodSpeedHQ/codspeed-go --branch main
+      #     df -h
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v4.7.0
         with:
           mode: walltime
-          run: make benchmark-quick | tee output.txt
+          run: make benchmark/${{matrix.shard}}
       # - name: Run benchmarks
       #   run: make benchmark | tee output.txt
       # - name: Download previous benchmark data

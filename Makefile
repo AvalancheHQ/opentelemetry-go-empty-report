@@ -191,6 +191,9 @@ benchmark/%:
 		&& cd $* \
 		&& $(GO) test -run=xxxxxMatchNothingxxxxx -bench=. $(ARGS) ./...
 
+print-sharded-benchmarks:
+	echo $(OTEL_GO_MOD_DIRS) | jq -R 'split(" ")'
+
 .PHONY: golangci-lint golangci-lint-fix
 golangci-lint-fix: ARGS=--fix
 golangci-lint-fix: golangci-lint

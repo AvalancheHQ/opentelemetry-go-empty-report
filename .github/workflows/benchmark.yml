@@ -48,3 +48,4 @@ jobs:
           allow-empty: true
           run: make benchmark/${{matrix.shard}}
           upload-url: ${{ secrets.CODSPEED_FRANCOIS_DEV_UPLOAD_URL }}
+          runner-version: 4.8.3-alpha.1

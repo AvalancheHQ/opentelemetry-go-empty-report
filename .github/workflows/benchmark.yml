@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 # Declare default permissions as read only.
-permissions: read-all
+permissions:
+  contents: read
+  id-token: write
 
 env:
   DEFAULT_GO_VERSION: "~1.25.0"
@@ -43,5 +45,6 @@ jobs:
         uses: CodSpeedHQ/action@v4.8.2
         with:
           mode: walltime
-          allow-empty: true
+          # allow-empty: true
           run: make benchmark/${{matrix.shard}}
+          upload-url: ${{ secrets.CODSPEED_FRANCOIS_DEV_UPLOAD_URL }}
